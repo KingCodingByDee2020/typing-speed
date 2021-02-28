@@ -5,6 +5,9 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
+      colors: {
+        "neon-green": "#49fb35",
+      },
       fontFamily: {
         mono: ["VT323", ...defaultTheme.fontFamily.mono],
       },
