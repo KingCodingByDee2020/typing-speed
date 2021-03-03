@@ -1,10 +1,26 @@
+import { useEffect, useState } from "react";
 import TimerForm from "./TimerForm";
 import TypingArea from "./TypingArea";
 
 function Main() {
+  const [secsRemaining, setSecsRemaining] = useState(null);
+
+  useEffect(() => {
+    // Run the timer as long as there are secsRemaining
+    if (secsRemaining) {
+      // We are creating a new interval every second...
+      const intervalID = setInterval(() => {
+        setSecsRemaining((prev) => prev - 1);
+      }, 1000);
+
+      // Clean up the current interval to avoid memory leaks
+      return () => clearInterval(intervalID);
+    }
+  });
+
   function handleSubmit(event) {
     event.preventDefault();
-    console.log(event.target.elements[0].value);
+    setSecsRemaining(Number(event.target.elements[0].value));
   }
 
   return (
