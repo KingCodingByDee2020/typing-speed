@@ -21,6 +21,13 @@ function Main() {
     }
   });
 
+  useEffect(() => {
+    if (!secsRemaining) {
+      textareaRef.current.blur();
+      textareaRef.current.disabled = true;
+    }
+  });
+
   function handleSubmit(event) {
     event.preventDefault();
     setSecsRemaining(Number(event.target.elements[0].value));
@@ -32,7 +39,11 @@ function Main() {
     <main className="flex flex-col gap-4 items-center mx-auto w-96">
       <TimerForm handler={handleSubmit} />
       {secsRemaining ? <Info msg={secsRemaining} /> : null}
-      <textarea className="bg-gray-200 h-48 w-96" disabled ref={textareaRef} />
+      <textarea
+        className="bg-gray-200 h-48 w-96 focus:bg-gray-900"
+        disabled
+        ref={textareaRef}
+      />
     </main>
   );
 }
