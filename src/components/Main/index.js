@@ -1,6 +1,6 @@
 import { calcWPM } from "lib";
 import { useEffect, useRef, useState } from "react";
-import TimerForm from "./TimerForm";
+import Form from "./Form";
 
 function Main() {
   const [secsRemaining, setSecsRemaining] = useState(null);
@@ -45,7 +45,13 @@ function Main() {
 
   return (
     <main className="flex flex-col gap-4 items-center mx-auto w-96">
-      <TimerForm handler={handleSubmit} />
+      <Form
+        handler={handleSubmit}
+        label="How Long Should the Test Run?"
+        type="number"
+        placeholder="secs"
+        buttonTxt="Go!"
+      />
       <p className="text-2xl">{currentMsg}</p>
       <textarea
         className="bg-gray-200 h-48 w-96 focus:bg-gray-900"
