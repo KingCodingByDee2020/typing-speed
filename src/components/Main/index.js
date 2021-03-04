@@ -1,6 +1,5 @@
 import { calcWPM } from "lib";
 import { useEffect, useRef, useState } from "react";
-import Info from "./Info";
 import TimerForm from "./TimerForm";
 
 function Main() {
@@ -47,7 +46,7 @@ function Main() {
   return (
     <main className="flex flex-col gap-4 items-center mx-auto w-96">
       <TimerForm handler={handleSubmit} />
-      <Info msg={currentMsg} />
+      <p className="text-2xl">{currentMsg}</p>
       <textarea
         className="bg-gray-200 h-48 w-96 focus:bg-gray-900"
         disabled
