@@ -58,6 +58,12 @@ function Main() {
         disabled
         ref={textareaRef}
       />
+      <Form
+        handler={handleSubmit}
+        label="Enter Ur Initials"
+        type="text"
+        buttonTxt="Submit!"
+      />
     </main>
   );
 }
