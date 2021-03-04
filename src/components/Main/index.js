@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Info from "./Info";
 import TimerForm from "./TimerForm";
-import TypingArea from "./TypingArea";
 
 function Main() {
   const [secsRemaining, setSecsRemaining] = useState(null);
+
+  // Keep a reference to the textarea in between the renders
+  const textareaRef = useRef();
 
   useEffect(() => {
     // Run the timer as long as there are secsRemaining
@@ -22,13 +24,15 @@ function Main() {
   function handleSubmit(event) {
     event.preventDefault();
     setSecsRemaining(Number(event.target.elements[0].value));
+    textareaRef.current.disabled = false;
+    textareaRef.current.focus();
   }
 
   return (
     <main className="flex flex-col gap-4 items-center mx-auto w-96">
       <TimerForm handler={handleSubmit} />
       {secsRemaining ? <Info msg={secsRemaining} /> : null}
-      <TypingArea />
+      <textarea className="bg-gray-200 h-48 w-96" disabled ref={textareaRef} />
     </main>
   );
 }
