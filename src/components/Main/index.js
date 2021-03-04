@@ -24,11 +24,7 @@ function Main() {
 
       // Clean up the current interval to avoid memory leaks
       return () => clearInterval(intervalID);
-    }
-  });
-
-  useEffect(() => {
-    if (!secsRemaining) {
+    } else {
       setCurrentMsg(
         () => `${calcWPM(textareaRef.current.value, startingSecs.current)} WPM`
       );
