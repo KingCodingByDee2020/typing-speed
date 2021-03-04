@@ -4,7 +4,7 @@ import Form from "./Form";
 
 function Main() {
   const [secsRemaining, setSecsRemaining] = useState(null);
-  const [currentMsg, setCurrentMsg] = useState("");
+  const [WPM, setWPM] = useState(0);
 
   // Keep a reference in between the renders
   const textareaRef = useRef();
@@ -15,18 +15,13 @@ function Main() {
     if (secsRemaining) {
       // We are creating a new interval every second...
       const intervalID = setInterval(() => {
-        setCurrentMsg(() =>
-          secsRemaining ? `${secsRemaining - 1} second(s) remain!` : null
-        );
         setSecsRemaining((prev) => prev - 1);
       }, 1000);
 
       // Clean up the current interval to avoid memory leaks
       return () => clearInterval(intervalID);
     } else {
-      setCurrentMsg(
-        () => `${calcWPM(textareaRef.current.value, startingSecs.current)} WPM`
-      );
+      setWPM(() => calcWPM(textareaRef.current.value, startingSecs.current));
       textareaRef.current.blur();
       textareaRef.current.disabled = true;
     }
@@ -35,10 +30,13 @@ function Main() {
   function handleSubmit(event) {
     event.preventDefault();
 
+    setWPM(() => 0);
+
     const secs = Number(event.target.elements[0].value);
 
     setSecsRemaining(secs);
     startingSecs.current = secs;
+    textareaRef.current.value = "";
     textareaRef.current.disabled = false;
     textareaRef.current.focus();
   }
@@ -52,18 +50,21 @@ function Main() {
         placeholder="secs"
         buttonTxt="Go!"
       />
-      <p className="text-2xl">{currentMsg}</p>
+      <p className="text-2xl">{WPM ? `${WPM} words/min` : secsRemaining}</p>
       <textarea
         className="bg-gray-200 h-48 w-96 focus:bg-gray-900"
         disabled
         ref={textareaRef}
       />
-      <Form
-        handler={handleSubmit}
-        label="Enter Ur Initials"
-        type="text"
-        buttonTxt="Submit!"
-      />
+
+      {WPM ? (
+        <Form
+          handler={handleSubmit}
+          label="Enter Ur Initials"
+          type="text"
+          buttonTxt="Submit!"
+        />
+      ) : null}
     </main>
   );
 }
