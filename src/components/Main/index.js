@@ -44,7 +44,13 @@ function Main() {
     target.value = target.value.slice(0, 3);
   }
 
-  function handleSubmit(event) {
+  function handleInitials(event) {
+    event.preventDefault();
+
+    console.log(event.target.elements[0].value);
+  }
+
+  function handleTimeStart(event) {
     event.preventDefault();
 
     setWPM(() => 0);
@@ -61,7 +67,7 @@ function Main() {
   return (
     <main className="flex flex-col gap-4 items-center mx-auto w-96">
       <Form
-        submitHandler={handleSubmit}
+        submitHandler={handleTimeStart}
         label="How Long Should the Test Run?"
         type="number"
         placeholder="secs"
@@ -76,7 +82,7 @@ function Main() {
 
       {WPM ? (
         <Form
-          submitHandler={handleSubmit}
+          submitHandler={handleInitials}
           keyUpHandler={handleKeyUp}
           label="Enter Ur Initials"
           type="text"
