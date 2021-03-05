@@ -7,6 +7,7 @@ function Main() {
   const [WPM, setWPM] = useState(0);
 
   // Keep a reference in between the renders
+  const inputRef = useRef(null);
   const textareaRef = useRef(null);
   const startingSecs = useRef(null);
 
@@ -26,6 +27,17 @@ function Main() {
       textareaRef.current.disabled = true;
     }
   }, [secsRemaining]);
+
+  /**
+   * When there is a WPM value,
+   * the appropriate `<input>` will be rendered from `<Form />
+   *
+   * At this point, and only at this point,
+   * will `inputref.current` be non-null.
+   */
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, [WPM]);
 
   function handleKeyUp({ target }) {
     target.value = target.value.toUpperCase();
@@ -69,6 +81,8 @@ function Main() {
           label="Enter Ur Initials"
           type="text"
           buttonTxt="Submit!"
+          // ⚠️ THIS IS NOT A PROP!
+          ref={inputRef}
         />
       ) : null}
     </main>
