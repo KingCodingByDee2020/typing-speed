@@ -7,8 +7,8 @@ function Main() {
   const [WPM, setWPM] = useState(0);
 
   // Keep a reference in between the renders
-  const textareaRef = useRef();
-  const startingSecs = useRef();
+  const textareaRef = useRef(null);
+  const startingSecs = useRef(null);
 
   useEffect(() => {
     // Run the timer as long as there are secsRemaining
@@ -27,6 +27,10 @@ function Main() {
     }
   }, [secsRemaining]);
 
+  function handleKeyUp(event) {
+    console.log(event.target.value);
+  }
+
   function handleSubmit(event) {
     event.preventDefault();
 
@@ -34,7 +38,7 @@ function Main() {
 
     const secs = Number(event.target.elements[0].value);
 
-    setSecsRemaining(secs);
+    setSecsRemaining(() => secs);
     startingSecs.current = secs;
     textareaRef.current.value = "";
     textareaRef.current.disabled = false;
@@ -44,7 +48,7 @@ function Main() {
   return (
     <main className="flex flex-col gap-4 items-center mx-auto w-96">
       <Form
-        handler={handleSubmit}
+        submitHandler={handleSubmit}
         label="How Long Should the Test Run?"
         type="number"
         placeholder="secs"
@@ -59,7 +63,8 @@ function Main() {
 
       {WPM ? (
         <Form
-          handler={handleSubmit}
+          submitHandler={handleSubmit}
+          keyUpHandler={handleKeyUp}
           label="Enter Ur Initials"
           type="text"
           buttonTxt="Submit!"
